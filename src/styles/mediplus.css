@@ -1,0 +1,264 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+:root {
+  --mediplus-primary: #2e9cca;
+  --mediplus-dark: #113f67;
+  --mediplus-secondary: #27a5d8;
+  --mediplus-light: #f7fbff;
+  --mediplus-text: #30475e;
+  --mediplus-muted: #6c7a89;
+}
+
+body.mediplus-theme {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--mediplus-text);
+  background-color: #ffffff;
+  line-height: 1.7;
+}
+
+.topbar {
+  background: #0d2744;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+}
+
+.topbar .contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1.5rem;
+}
+
+.topbar a {
+  color: inherit;
+}
+
+.mediplus-navbar {
+  background: rgba(13, 39, 68, 0.92);
+  transition: background 0.2s ease;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.mediplus-navbar .navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.mediplus-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding-inline: 0.9rem;
+}
+
+.mediplus-navbar .nav-link.active,
+.mediplus-navbar .nav-link:hover {
+  color: #fff;
+}
+
+.hero-wrap {
+  position: relative;
+  min-height: 85vh;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+}
+
+.hero-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(17, 63, 103, 0.85), rgba(46, 156, 202, 0.75));
+}
+
+.hero-wrap .container,
+.hero-wrap .row,
+.hero-wrap .col {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-wrap .subheading {
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+}
+
+.hero-wrap h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.hero-wrap p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-buttons .btn {
+  padding: 0.85rem 1.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-mediplus-primary {
+  background: var(--mediplus-secondary);
+  border: none;
+  color: #fff;
+}
+
+.btn-mediplus-primary:hover {
+  background: #1f92c1;
+}
+
+.btn-outline-mediplus {
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.btn-outline-mediplus:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.ftco-section {
+  padding-block: 4.5rem;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-heading span {
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-size: 0.75rem;
+  color: var(--mediplus-secondary);
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.section-heading h2 {
+  font-weight: 700;
+  font-size: clamp(2rem, 3vw + 1rem, 2.6rem);
+  color: var(--mediplus-dark);
+}
+
+.services-grid .card {
+  border-radius: 1.25rem;
+  border: none;
+  box-shadow: 0 1.5rem 3rem rgba(17, 63, 103, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.services-grid .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1.8rem 3.5rem rgba(17, 63, 103, 0.18);
+}
+
+.service-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(46, 156, 202, 0.12);
+  color: var(--mediplus-secondary);
+  font-size: 1.8rem;
+}
+
+.appointment-banner {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 2.5rem 4rem rgba(17, 63, 103, 0.15);
+  overflow: hidden;
+}
+
+.appointment-banner .media {
+  background-size: cover;
+  background-position: center;
+  min-height: 100%;
+  position: relative;
+}
+
+.appointment-banner .media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 63, 103, 0.75);
+}
+
+.appointment-banner .media-content {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 3rem;
+}
+
+.doctor-card {
+  border-radius: 1.25rem;
+  border: none;
+  box-shadow: 0 1.4rem 2.8rem rgba(17, 63, 103, 0.1);
+}
+
+.doctor-card .badge {
+  background: rgba(46, 156, 202, 0.15);
+  color: var(--mediplus-secondary);
+}
+
+.testimonial-card {
+  border-radius: 1.5rem;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 2rem 3.5rem rgba(17, 63, 103, 0.14);
+}
+
+.blog-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 1.5rem 3rem rgba(17, 63, 103, 0.12);
+}
+
+.cta-section .card {
+  border-radius: 1.5rem;
+  border: none;
+  overflow: hidden;
+}
+
+.cta-section .bg-primary {
+  background: linear-gradient(135deg, #113f67, #2e9cca);
+}
+
+.contact-card {
+  border-radius: 1.5rem;
+  border: none;
+  box-shadow: 0 1.5rem 3rem rgba(17, 63, 103, 0.12);
+}
+
+.footer {
+  background: #0d2744;
+}
+
+.footer .link-light:hover {
+  color: var(--mediplus-secondary);
+}
+
+@media (max-width: 991px) {
+  .topbar {
+    text-align: center;
+  }
+  .hero-wrap {
+    min-height: 70vh;
+  }
+}
+

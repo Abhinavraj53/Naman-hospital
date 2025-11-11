@@ -1,0 +1,73 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { clearError, verifyEmail } from "../store/authSlice";
+
+const VerifyEmail = () => {
+  const [manualToken, setManualToken] = useState("");
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    if (token) {
+      dispatch(verifyEmail(token));
+    }
+  }, [searchParams, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    return () => {
+      dispatch(clearError());
+    };
+  }, [error, dispatch]);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!manualToken.trim()) {
+      toast.error("Please enter a verification token");
+      return;
+    }
+    dispatch(verifyEmail(manualToken));
+  };
+
+  return (
+    <section className="auth-section py-5 bg-light">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-lg-5">
+            <div className="card shadow border-0">
+              <div className="card-body p-4 p-md-5 text-center">
+                <h3 className="mb-3">Verify your email</h3>
+                <p className="text-muted mb-4">
+                  {loading
+                    ? "Verifying your account..."
+                    : "Click the link we sent to your inbox or paste the verification code below."}
+                </p>
+                <form className="d-grid gap-3" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    className="form-control text-center"
+                    placeholder="Enter verification token"
+                    value={manualToken}
+                    onChange={event => setManualToken(event.target.value)}
+                  />
+                  <button className="btn btn-primary" type="submit" disabled={loading}>
+                    {loading ? "Verifying..." : "Verify Email"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default VerifyEmail;
+
