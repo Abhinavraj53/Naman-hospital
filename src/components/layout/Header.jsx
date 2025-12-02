@@ -39,7 +39,7 @@ const Header = () => {
         <div className="container d-flex flex-column flex-lg-row justify-content-lg-between align-items-center gap-2">
           <div>
             <span className="contact-item">
-              <FaPhoneAlt aria-hidden="true" /> +91 6272 245 911
+              <FaPhoneAlt aria-hidden="true" /> +91 9234277007
             </span>
             <span className="contact-item">
               <FaPaperPlane aria-hidden="true" /> care@namanhospital.com
@@ -86,9 +86,20 @@ const Header = () => {
             <div className="d-flex align-items-center ms-lg-4 gap-2">
               {user ? (
                 <>
+                  {user.role === "ADMIN" && (
+                    <NavLink className="btn btn-outline-warning" to="/admin">
+                      Admin Panel
+                    </NavLink>
+                  )}
                   <NavLink
                     className="btn btn-outline-light"
-                    to={user.role === "DOCTOR" ? "/dashboard/doctor" : "/dashboard/patient"}
+                    to={
+                      user.role === "DOCTOR"
+                        ? "/dashboard/doctor"
+                        : user.role === "ADMIN"
+                        ? "/admin"
+                        : "/dashboard/patient"
+                    }
                   >
                     Dashboard
                   </NavLink>

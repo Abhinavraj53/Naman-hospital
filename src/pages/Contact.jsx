@@ -31,8 +31,8 @@ const Contact = () => {
             </p>
             <ul className="list-unstyled text-muted d-grid gap-2 mt-4">
               <li>• Email: care@namanhospital.com</li>
-              <li>• Phone: +91 6272 245 911 / +91 9431 123 456</li>
-              <li>• Address: Laheriasarai Main Road, Darbhanga, Bihar 846001</li>
+              <li>• Phone: +91 9234277007</li>
+              <li>• Address: अल्लपट्टी गुमती, दरभंगा (Allapatti Gumti, Darbhanga)</li>
               <li>• Support hours: OPD 8am–8pm · Emergency 24×7</li>
             </ul>
           </div>
@@ -91,7 +91,7 @@ const Contact = () => {
               </div>
               <div className="col-md-4">
                 <h5 className="fw-semibold">Emergency Desk</h5>
-                <p className="text-muted mb-1">+91 9431 123 456</p>
+                <p className="text-muted mb-1">+91 9234277007</p>
                 <small className="text-muted">Ambulance & trauma coordination</small>
               </div>
               <div className="col-md-4">

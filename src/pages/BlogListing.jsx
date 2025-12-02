@@ -18,7 +18,7 @@ const BlogListing = () => {
         <div className="text-center mb-4">
           <h1 className="mb-3">Medical insights & platform updates</h1>
           <p className="text-muted">
-            Stay informed with health guidance, product releases, and stories from the DoctorOnCall community.
+            Stay informed with health guidance, product releases, and stories from the Naman Hospital community.
           </p>
         </div>
 

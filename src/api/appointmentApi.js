@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import axiosClient from "./axiosClient";
 
 const mockAppointments = [
@@ -49,18 +48,8 @@ const appointmentApi = {
       return { appointments: mockAppointments };
     }
   },
-  async createAppointment(payload) {
-    try {
-      return await axiosClient.post("/appointments", payload);
-    } catch (error) {
-      const mock = {
-        ...payload,
-        id: nanoid(),
-        trackingId: "NAM-" + Math.floor(Math.random() * 9000 + 1000)
-      };
-      return { appointment: mock };
-    }
-  },
+  getAvailability: (doctorId, date) =>
+    axiosClient.get("/appointments/availability", { params: { doctorId, date } }),
   updateStatus: (id, status) => axiosClient.patch(`/appointments/${id}`, { status }),
   async trackAppointment(trackingId) {
     try {

@@ -24,7 +24,45 @@ const DoctorDashboard = () => {
   }, [error]);
 
   const handleAppointmentAction = (status, appointment) => {
-    const result = dispatch(updateAppointmentStatus({ id: appointment.id, status }));
+    const appointmentId = appointment.id || appointment._id || appointment.trackingId;
+    const currentStatus = appointment.status;
+
+    if (status === "CONFIRMED" && currentStatus === "CANCELLED") {
+      toast.error("Cancelled appointments cannot be confirmed");
+      return;
+    }
+    if (status === "CANCELLED" && currentStatus === "COMPLETED") {
+      toast.error("Completed appointments cannot be cancelled");
+      return;
+    }
+    if (status === "CONFIRMED" && currentStatus === "COMPLETED") {
+      toast.error("Completed appointments cannot be modified");
+      return;
+    }
+    if (status === "COMPLETED" && !["CONFIRMED", "COMPLETED"].includes(currentStatus)) {
+      toast.error("Confirm the appointment before marking as completed");
+      return;
+    }
+    if (status === "CANCELLED" && currentStatus === "CANCELLED") {
+      toast.error("Appointment is already cancelled");
+      return;
+    }
+    if (status === "COMPLETED" && currentStatus === "COMPLETED") {
+      toast.error("Appointment is already completed");
+      return;
+    }
+
+    const confirmMessage = {
+      CONFIRMED: "Mark this appointment as confirmed?",
+      COMPLETED: "Mark this appointment as completed?",
+      CANCELLED: "Cancel this appointment?"
+    }[status];
+
+    if (!window.confirm(confirmMessage || "Proceed?")) {
+      return;
+    }
+
+    const result = dispatch(updateAppointmentStatus({ id: appointmentId, status }));
     result.then(action => {
       if (updateAppointmentStatus.fulfilled.match(action)) {
         toast.success(`Appointment ${status.toLowerCase()}`);
@@ -62,10 +100,11 @@ const DoctorDashboard = () => {
 
         <div className="row g-4">
           {doctorAppointments.map(appointment => (
-            <div className="col-md-6 col-lg-4" key={appointment.id}>
+            <div className="col-md-6 col-lg-4" key={appointment.id || appointment._id || appointment.trackingId}>
               <AppointmentCard
                 appointment={appointment}
                 onAction={handleAppointmentAction}
+                view="doctor"
               />
             </div>
           ))}

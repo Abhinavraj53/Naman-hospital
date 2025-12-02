@@ -61,7 +61,7 @@ const BlogDetails = () => {
             </span>
             <h1 className="mb-3">{selectedPost.title}</h1>
             <div className="text-muted mb-4 d-flex flex-wrap gap-3">
-              <span>By {selectedPost.author || "DoctorOnCall Team"}</span>
+              <span>By {selectedPost.author || "Naman Hospital Team"}</span>
               <span>{new Date(selectedPost.publishedAt || Date.now()).toLocaleDateString()}</span>
             </div>
             <div

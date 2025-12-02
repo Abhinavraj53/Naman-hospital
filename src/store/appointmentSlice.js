@@ -1,6 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import appointmentApi from "../api/appointmentApi";
 
+
+const formatAppointment = appointment => {
+  if (!appointment) return appointment;
+  const doctor = appointment.doctorId && typeof appointment.doctorId === 'object' ? appointment.doctorId : null;
+  const patient = appointment.patientId && typeof appointment.patientId === 'object' ? appointment.patientId : null;
+  return {
+    ...appointment,
+    id: appointment.id || appointment._id || appointment.trackingId,
+    patientId: patient?._id || appointment.patientId,
+    doctorId: doctor?._id || appointment.doctorId,
+    patientName: patient?.name || appointment.patientName || 'Patient',
+    doctorName: doctor?.name || appointment.doctorName || 'Doctor',
+    doctorSpecialty: doctor?.specialty || appointment.doctorSpecialty || 'General'
+  };
+};
+
 const initialState = {
   doctorAppointments: [],
   patientAppointments: [],
@@ -14,7 +30,7 @@ export const fetchDoctorAppointments = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await appointmentApi.getDoctorAppointments();
-      return response.appointments;
+      return response.appointments.map(formatAppointment);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load appointments");
     }
@@ -26,21 +42,9 @@ export const fetchPatientAppointments = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await appointmentApi.getPatientAppointments();
-      return response.appointments;
+      return response.appointments.map(formatAppointment);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load appointments");
-    }
-  }
-);
-
-export const createAppointment = createAsyncThunk(
-  "appointments/createAppointment",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await appointmentApi.createAppointment(payload);
-      return response.appointment;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to create appointment");
     }
   }
 );
@@ -50,7 +54,7 @@ export const updateAppointmentStatus = createAsyncThunk(
   async ({ id, status }, thunkAPI) => {
     try {
       const response = await appointmentApi.updateStatus(id, status);
-      return response.appointment;
+      return formatAppointment(response.appointment);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to update appointment");
     }
@@ -62,7 +66,7 @@ export const trackAppointment = createAsyncThunk(
   async (trackingId, thunkAPI) => {
     try {
       const response = await appointmentApi.trackAppointment(trackingId);
-      return response.appointment;
+      return formatAppointment(response.appointment);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "No appointment found");
     }
@@ -104,22 +108,16 @@ const appointmentSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(createAppointment.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createAppointment.fulfilled, (state, action) => {
-        state.loading = false;
-        state.patientAppointments.unshift(action.payload);
-      })
-      .addCase(createAppointment.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       .addCase(updateAppointmentStatus.fulfilled, (state, action) => {
         state.doctorAppointments = state.doctorAppointments.map(appointment =>
           appointment.id === action.payload.id ? action.payload : appointment
         );
+        state.patientAppointments = state.patientAppointments.map(appointment =>
+          appointment.id === action.payload.id ? action.payload : appointment
+        );
+        if (state.trackedAppointment?.id === action.payload.id) {
+          state.trackedAppointment = action.payload;
+        }
       })
       .addCase(trackAppointment.pending, state => {
         state.loading = true;

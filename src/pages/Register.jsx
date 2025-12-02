@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { clearError, register as registerUser } from "../store/authSlice";
+import { clearError, clearRegistration, register as registerUser } from "../store/authSlice";
 
 const Register = () => {
   const {
@@ -14,7 +14,7 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, loading, error } = useSelector(state => state.auth);
+  const { loading, error, registrationMessage, pendingEmail } = useSelector(state => state.auth);
 
   useEffect(() => {
     if (error) {
@@ -26,11 +26,13 @@ const Register = () => {
   }, [error, dispatch]);
 
   useEffect(() => {
-    if (user) {
-      toast.success("Account created successfully!");
-      navigate("/verify-email", { replace: true });
+    if (registrationMessage) {
+      toast.success(registrationMessage);
+      const query = pendingEmail ? `?email=${encodeURIComponent(pendingEmail)}` : "";
+      navigate(`/verify-email${query}`, { replace: true });
+      dispatch(clearRegistration());
     }
-  }, [user, navigate]);
+  }, [registrationMessage, pendingEmail, navigate, dispatch]);
 
   const onSubmit = data => {
     if (data.password !== data.confirmPassword) {
@@ -41,8 +43,7 @@ const Register = () => {
       registerUser({
         name: data.name,
         email: data.email,
-        password: data.password,
-        role: data.role
+        password: data.password
       })
     );
   };
@@ -54,7 +55,7 @@ const Register = () => {
           <div className="col-lg-6">
             <div className="card shadow border-0">
               <div className="card-body p-4 p-md-5">
-                <h3 className="mb-4 text-center">Create your DoctorOnCall account</h3>
+                <h3 className="mb-4 text-center">Create your Naman Hospital account</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="d-grid gap-3">
                   <div>
                     <label className="form-label">Full name</label>
@@ -66,10 +67,10 @@ const Register = () => {
                   </div>
                   <div>
                     <label className="form-label">Account type</label>
-                    <select className="form-select" {...register("role")} defaultValue="PATIENT">
-                      <option value="PATIENT">Patient</option>
-                      <option value="DOCTOR">Doctor</option>
-                    </select>
+                    <input type="text" className="form-control" value="Patient" disabled readOnly />
+                    <small className="text-muted">
+                      Doctor and admin accounts are provisioned by the hospital admin team.
+                    </small>
                   </div>
                   <div className="row g-3">
                     <div className="col-md-6">

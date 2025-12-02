@@ -25,7 +25,7 @@ const ForgotPassword = () => {
   const onSubmit = async data => {
     const resultAction = await dispatch(requestPasswordReset(data));
     if (requestPasswordReset.fulfilled.match(resultAction)) {
-      toast.success("Password reset link sent to your email.");
+      toast.success(resultAction.payload || "Password reset link sent to your email.");
     }
   };
 

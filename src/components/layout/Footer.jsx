@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => (
   <footer className="footer py-5 text-light">
     <div className="container">
@@ -13,54 +15,74 @@ const Footer = () => (
           <h6 className="text-white mb-3">Quick Links</h6>
           <ul className="list-unstyled d-grid gap-2">
             <li>
-              <a href="/services" className="link-light">
+              <Link to="/services" className="link-light">
                 Services
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/doctors" className="link-light">
+              <Link to="/doctors" className="link-light">
                 Doctors
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/blog" className="link-light">
+              <Link to="/blog" className="link-light">
                 Blog
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/pricing" className="link-light">
-                Pricing
-              </a>
+              <Link to="/track-appointment" className="link-light">
+                Track appointment
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="link-light">
+              <Link to="/contact" className="link-light">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
-        <div className="col-lg-4">
-          <h6 className="text-white mb-3">Contact</h6>
+        <div className="col-lg-2">
+          <h6 className="text-white mb-3">Policies</h6>
+          <ul className="list-unstyled d-grid gap-2">
+            <li>
+              <Link to="/privacy-policy" className="link-light">
+                Privacy policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/terms-of-service" className="link-light">
+                Terms of service
+              </Link>
+            </li>
+            <li>
+              <Link to="/refund-policy" className="link-light">
+                Refund policy
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="col-lg-2">
+          <h6 className="text-white mb-3">Support</h6>
           <ul className="list-unstyled d-grid gap-2">
             <li>Email: care@namanhospital.com</li>
-            <li>Phone: +91 6272 245 911 / +91 9431 123 456</li>
-            <li>Address: Laheriasarai Main Road, Darbhanga, Bihar 846001</li>
+            <li>Phone: +91 9234277007</li>
+            <li>Emergency: +91 9234277007</li>
           </ul>
         </div>
       </div>
       <hr className="border-top border-light opacity-25 my-4" />
       <div className="d-flex justify-content-between flex-wrap align-items-center text-light-50 gap-3">
         <small>© {new Date().getFullYear()} Naman Hospital, Darbhanga. All rights reserved.</small>
-        <div className="d-flex gap-3">
-          <a href="/" className="link-light">
-            Privacy
-          </a>
-          <a href="/" className="link-light">
-            Terms
-          </a>
-          <a href="/" className="link-light">
-            Support
-          </a>
+        <div className="d-flex gap-3 flex-wrap">
+          <Link to="/privacy-policy" className="link-light">
+            Privacy policy
+          </Link>
+          <Link to="/terms-of-service" className="link-light">
+            Terms of service
+          </Link>
+          <Link to="/refund-policy" className="link-light">
+            Refund policy
+          </Link>
         </div>
       </div>
     </div>

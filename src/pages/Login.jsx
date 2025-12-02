@@ -28,13 +28,26 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      const redirect = location.state?.from?.pathname || (user.role === "DOCTOR" ? "/dashboard/doctor" : "/dashboard/patient");
+      const fromLocation = location.state?.from;
+      let redirect = fromLocation?.pathname
+        ? `${fromLocation.pathname}${fromLocation.search || ""}${fromLocation.hash || ""}`
+        : null;
+      if (!redirect) {
+        if (user.role === "ADMIN") {
+          redirect = "/admin";
+        } else if (user.role === "DOCTOR") {
+          redirect = "/dashboard/doctor";
+        } else {
+          redirect = "/dashboard/patient";
+        }
+      }
       navigate(redirect, { replace: true });
       toast.success("Welcome back!");
     }
   }, [user, navigate, location.state]);
 
   const onSubmit = data => {
+    dispatch(clearError()); // Clear any previous errors
     dispatch(login(data));
   };
 
@@ -45,7 +58,12 @@ const Login = () => {
           <div className="col-lg-5">
             <div className="card shadow border-0">
               <div className="card-body p-4 p-md-5">
-                <h3 className="mb-4 text-center">Sign in to DoctorOnCall</h3>
+                <h3 className="mb-4 text-center">Sign in to Naman Hospital</h3>
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
                 <form onSubmit={handleSubmit(onSubmit)} className="d-grid gap-3">
                   <div>
                     <label className="form-label">Email</label>

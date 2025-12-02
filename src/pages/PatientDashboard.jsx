@@ -56,8 +56,8 @@ const PatientDashboard = () => {
             <h4 className="mb-3">आगामी अपॉइंटमेंट</h4>
             <div className="row g-4">
               {upcoming.map(appointment => (
-                <div className="col-md-6 col-lg-4" key={appointment.id}>
-                  <AppointmentCard appointment={appointment} />
+                <div className="col-md-6 col-lg-4" key={appointment.id || appointment._id || appointment.trackingId}>
+                  <AppointmentCard appointment={appointment} view="patient" />
                 </div>
               ))}
             </div>
@@ -69,8 +69,8 @@ const PatientDashboard = () => {
             <h4 className="mb-3">पूर्व अपॉइंटमेंट</h4>
             <div className="row g-4">
               {past.map(appointment => (
-                <div className="col-md-6 col-lg-4" key={appointment.id}>
-                  <AppointmentCard appointment={appointment} />
+                <div className="col-md-6 col-lg-4" key={appointment.id || appointment._id || appointment.trackingId}>
+                  <AppointmentCard appointment={appointment} view="patient" />
                 </div>
               ))}
             </div>

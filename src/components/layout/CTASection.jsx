@@ -23,7 +23,7 @@ const CTASection = () => (
           <div className="col-md-4 bg-light p-5">
             <h5 className="text-primary mb-3">Emergency Helpline</h5>
             <ul className="list-unstyled text-muted d-grid gap-2">
-              <li>• Call +91 6272 245 911 (24×7)</li>
+              <li>• Call +91 9234277007 (24×7)</li>
               <li>• Ambulance dispatch across Darbhanga, Madhubani, Samastipur</li>
               <li>• Immediate ICU, OT, and critical care availability</li>
             </ul>

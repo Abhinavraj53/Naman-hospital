@@ -7,6 +7,7 @@ import store from "./store/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/globals.css";
 import "./styles/mediplus.css";
+import "./styles/admin.css";
 
 document.body.classList.add("mediplus-theme");
 

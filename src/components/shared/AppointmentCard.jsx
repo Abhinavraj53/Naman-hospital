@@ -7,7 +7,7 @@ const statusClasses = {
   CANCELLED: "bg-danger"
 };
 
-const AppointmentCard = ({ appointment, onAction }) => {
+const AppointmentCard = ({ appointment, onAction, view = "patient" }) => {
   const badgeClass = statusClasses[appointment.status] || "bg-secondary";
 
   return (
@@ -15,8 +15,16 @@ const AppointmentCard = ({ appointment, onAction }) => {
       <div className="card-body d-flex flex-column gap-3">
         <div className="d-flex justify-content-between align-items-start gap-3">
           <div>
-            <h5 className="mb-1">{appointment.patientName}</h5>
-            <p className="text-muted mb-1">{appointment.doctorSpecialty}</p>
+            <h5 className="mb-1">{view === "doctor" ? appointment.patientName : appointment.doctorName || appointment.doctorSpecialty}</h5>
+            <p className="text-muted mb-1">
+              {view === "doctor"
+                ? appointment.doctorName
+                  ? `Doctor: ${appointment.doctorName}`
+                  : appointment.doctorSpecialty
+                : appointment.patientName
+                ? `Patient: ${appointment.patientName}`
+                : appointment.doctorSpecialty || "General"}
+            </p>
             <span className={`badge ${badgeClass}`}>{appointment.status}</span>
           </div>
           <div className="text-end">
@@ -32,7 +40,7 @@ const AppointmentCard = ({ appointment, onAction }) => {
         </div>
 
         <p className="text-muted small mb-0">
-          {appointment.notes?.slice(0, 110) || "No additional notes provided."}
+          {view === "track" && appointment.patientName ? `Patient: ${appointment.patientName}` : appointment.notes?.slice(0, 110) || "No additional notes provided."}
         </p>
 
         {onAction && (
