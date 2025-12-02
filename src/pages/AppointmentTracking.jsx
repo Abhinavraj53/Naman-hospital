@@ -135,7 +135,7 @@ const AppointmentTracking = () => {
       };
 
       if (data.paymentMethod === "cod") {
-        // Handle COD booking
+        // Handle COD booking with timeout handling
         const result = await paymentApi.createCODOrder(bookingPayload);
         toast.success(result.message || "Appointment confirmed! Please bring cash payment when you arrive.");
         resetBooking();
@@ -144,6 +144,11 @@ const AppointmentTracking = () => {
         );
         // Clear any pending payment order
         setPendingPaymentOrder(null);
+        
+        // Redirect to patient dashboard after successful booking
+        setTimeout(() => {
+          window.location.href = "/dashboard/patient";
+        }, 2000);
       } else {
         // Handle online payment
         const order = await paymentApi.createCashfreeOrder(bookingPayload);
@@ -164,7 +169,23 @@ const AppointmentTracking = () => {
         );
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || err?.message || "Unable to book appointment");
+      // Handle timeout errors specially for COD bookings
+      const isTimeout = err?.response?.timeout || err?.code === 'ECONNABORTED' || err?.message?.includes('timeout');
+      const paymentMethod = data?.paymentMethod;
+      const isCOD = paymentMethod === "cod";
+      
+      if (isTimeout && isCOD) {
+        // Appointment might have been created but response timed out
+        toast.success("Appointment booking initiated. Please check your appointments - it may have been confirmed successfully.", {
+          duration: 5000
+        });
+        // Redirect to patient dashboard to check appointment status
+        setTimeout(() => {
+          window.location.href = "/dashboard/patient";
+        }, 3000);
+      } else {
+        toast.error(err?.response?.data?.message || err?.message || "Unable to book appointment");
+      }
     } finally {
       setBookingLoading(false);
     }

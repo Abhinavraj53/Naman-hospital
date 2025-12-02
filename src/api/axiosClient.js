@@ -17,7 +17,8 @@ const inferBaseUrl = () => {
 
 const axiosClient = axios.create({
   baseURL: inferBaseUrl(),
-  withCredentials: true
+  withCredentials: true,
+  timeout: 30000 // 30 seconds timeout
 });
 
 axiosClient.interceptors.request.use(config => {
@@ -43,12 +44,18 @@ axiosClient.interceptors.response.use(
       });
     } else if (error.request) {
       // Request was made but no response received
-      const errorMessage = error.code === 'ECONNREFUSED' 
-        ? "Backend server is not running. Please start the server on port 5001."
-        : error.message || "Network error. Please check your connection.";
+      let errorMessage;
+      if (error.code === 'ECONNREFUSED') {
+        errorMessage = "Backend server is not running. Please start the server on port 5001.";
+      } else if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        errorMessage = "Request timeout. Your appointment may have been booked. Please check your appointments or refresh the page.";
+      } else {
+        errorMessage = error.message || "Network error. Please check your connection.";
+      }
       return Promise.reject({
         response: {
-          data: { message: errorMessage }
+          data: { message: errorMessage },
+          timeout: error.code === 'ECONNABORTED'
         }
       });
     } else {
