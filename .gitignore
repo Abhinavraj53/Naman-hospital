@@ -4,3 +4,4 @@ build/
 mediplus-master/
 .env
 .env.*
+api/
